@@ -126,6 +126,12 @@ footer{padding:28px 0 40px;text-align:center;font-size:12px;color:var(--sub)}
 .hist .s{font-size:12.5px;color:var(--sub);line-height:1.6;margin-top:2px}
 
 [hidden]{display:none !important}
+.lklist{display:grid;gap:10px}
+.lk{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.lk[hidden]{display:none !important}
+.lk-tag{display:inline-block;font-size:11px;font-weight:900;color:var(--blue);border:1.5px solid var(--blue);border-radius:99px;padding:0 9px;margin-bottom:4px}
+.lk b{display:block;font-size:15.5px;font-weight:900;color:var(--navy);line-height:1.5}
+.lk small{display:block;font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:2px}
 </style>
 </head>
 <body>
@@ -253,11 +259,45 @@ footer{padding:28px 0 40px;text-align:center;font-size:12px;color:var(--sub)}
     <div class="sec-label">ACTIVITY</div>
     <h2>歌い手としての活動</h2>
     <p class="lead">歌ってみたや日々の投稿は、こちらから。</p>
-    <div class="links">
-      <a class="link" href="https://x.com/row_row_rho" target="_blank" rel="noopener" data-track="x">X<small>@row_row_rho</small></a>
-      <a class="link" href="https://youtube.com/@row_row_rho" target="_blank" rel="noopener" data-track="youtube">YouTube<small>歌ってみた</small></a>
-      <a class="link" href="https://www.nicovideo.jp/user/46408854" target="_blank" rel="noopener" data-track="niconico">ニコニコ動画<small>歌ってみた</small></a>
-      <a class="link" href="https://www.tiktok.com/@row_row_rho" target="_blank" rel="noopener" data-track="tiktok">TikTok<small>ライブ・歌の切り抜き</small></a>
+    <div class="lklist">
+      <a class="lk" href="https://x.com/row_row_rho" target="_blank" rel="noopener" data-track="x">
+        <span class="lk-tag">X</span><b>ρ(ロー)のメインアカウント</b>
+        <small>新作の歌ってみた動画やライブの告知など、活動に関することをツイートします！飯テロもします</small>
+      </a>
+      <a class="lk" id="lk-live" hidden target="_blank" rel="noopener" data-track="x_live">
+        <span class="lk-tag">X</span><b>推しが見つかる方程式</b>
+        <small>ρの主催ライブの公式アカウント！情報を投稿します！</small>
+      </a>
+      <a class="lk" id="lk-matari" hidden target="_blank" rel="noopener" data-track="x_matari">
+        <span class="lk-tag">X</span><b>まったりろさん</b>
+        <small>ろさんはまったりつぶやきたい</small>
+      </a>
+      <a class="lk" href="https://youtube.com/@row_row_rho" target="_blank" rel="noopener" data-track="youtube">
+        <span class="lk-tag">YouTube</span><b>YouTubeにある歌ってみた作品</b>
+        <small>歌ってみた上げてます！いっぱい聞いてください！</small>
+      </a>
+      <a class="lk" href="https://www.nicovideo.jp/user/46408854" target="_blank" rel="noopener" data-track="niconico">
+        <span class="lk-tag">ニコニコ</span><b>ニコニコ動画でも繋がりたい</b>
+      </a>
+      <a class="lk" href="https://www.tiktok.com/@row_row_rho" target="_blank" rel="noopener" data-track="tiktok">
+        <span class="lk-tag">TikTok</span><b>TikTok</b>
+        <small>ライブ・歌の切り抜き</small>
+      </a>
+      <a class="lk" id="lk-twicas" hidden target="_blank" rel="noopener" data-track="twicas">
+        <span class="lk-tag">ツイキャス</span><b>配信</b>
+        <small>毎週木曜日21:00～<br>主に雑談メインでまったり喋ります<br>仲良くしてくれる人大歓迎！<br>歌ってみた作品の紹介もします！</small>
+      </a>
+      <a class="lk" id="lk-hoshiimo" hidden target="_blank" rel="noopener" data-track="hoshiimo">
+        <span class="lk-tag">Amazon</span><b>干芋</b>
+        <small>買ってくれたらうれしいな</small>
+      </a>
+      <a class="lk" id="lk-ask" hidden target="_blank" rel="noopener" data-track="marshmallow">
+        <span class="lk-tag">ましゅまろ</span><b>質問はこちら！</b>
+        <small>ましゅまろにとびます</small>
+      </a>
+      <a class="lk" href="https://www.foriio.com/rowrowrho" target="_blank" rel="noopener" data-track="foriio">
+        <span class="lk-tag">作品</span><b>今まで作った作品（2025～）</b>
+      </a>
     </div>
   </div>
 </section>
@@ -314,6 +354,72 @@ var CSV_URL  = '';
 var SHEET_GID = '0';
 var X_URL = 'https://x.com/row_row_rho';
 var UPCOMING_OPEN = false;   // true にすると、出演予定のプルダウンを最初から開いておきます
+// シートを読み込めないときだけ使う、ライブ履歴の控え(2026-10-10時点・63本)。通常はシートの内容が表示されます
+var FALLBACK = [
+ "2022-01-15|Rabbit Banquet 2022in 愛知 2部",
+ "2022-06-04|びばふぇす in あいち 2部",
+ "2022-09-23|Rabbit Banquet 2022 vol.9-2",
+ "2022-11-05|びばおん生誕前昼祭",
+ "2023-02-12|びばふぇす2023 in あいち",
+ "2023-04-02|くじら学園放課後MIRAI部vol.1",
+ "2023-04-30|U's Parade",
+ "2023-05-27|2.5d Fes",
+ "2023-07-01|U's ぱすてる",
+ "2023-07-01|U's FESTIVAL",
+ "2023-07-02|VAGARY 紫龍ひなた 5周年 1部",
+ "2023-07-02|VAGARY 紫龍ひなた 5周年 2部",
+ "2023-08-19|Rabbit Banquet 2023 vol.8-1",
+ "2023-08-19|Rabbit Banquet 2023 vol.8-2",
+ "2023-09-17|とりま、ライブる？ vol.1",
+ "2023-11-26|灯火生誕 着火祭",
+ "2023-12-16|STEP UP STAGE vol.10",
+ "2024-01-07|とりま、ライブる？ vol.3",
+ "2024-01-28|やました生誕祭",
+ "2024-02-17|The Greatest Of All Time vol.1",
+ "2024-03-02|Abelia vol.3",
+ "2024-05-25|だから僕は此処で歌う。",
+ "2024-06-15|推しが見つかる方程式 vol.1",
+ "2024-07-20|Sun Shower 雨-さめ-生誕祭",
+ "2024-07-28|誕生日だしボクの考えるつよ×2メンツを集めてみた",
+ "2024-08-12|ウタオドvol.3",
+ "2024-08-18|だから僕は此処で歌う。",
+ "2024-09-08|陽橙俺得生誕祭~向日葵みたいに咲き誇れ~",
+ "2024-09-21|推しが見つかる方程式vol.2",
+ "2024-11-23|灯火生誕祭 烈火",
+ "2024-12-01|社畜のゆきねこ 勝手に生誕祭やってみた",
+ "2024-12-14|だから僕は此処から始まる。",
+ "2024-12-15|だうゆち生誕祭 Full course",
+ "2024-12-30|ウタオド vol.7",
+ "2024-12-31|年末大忘年新年飲酒会",
+ "2025-01-26|-ρ生誕- 推しと暴れる反応式",
+ "2025-02-08|『Campanule』~櫛枝ぺむち生誕祭~",
+ "2025-02-24|ぱれからvol.3",
+ "2025-03-30|STEP UP STAGE Osaka vol.5",
+ "2025-04-20|ウタオド vol.11",
+ "2025-05-10|しゃけらんしゃけるんるん",
+ "2025-05-11|とりま、ライブる？vol.10",
+ "2025-06-14|推しが見つかる方程式 vol.3",
+ "2025-07-19|誕生日だしボクの考えるつよ×2メンツを集めてみた 2かいめ",
+ "2025-07-27|金山にぎわいマルシェ",
+ "2025-08-10|STEP UP STAGE FESTIVAL Day2 1部",
+ "2025-08-16|Herzlichen Dank -KeKe Birthday Live 2025-",
+ "2025-09-14|miracle magic vol.16 1部",
+ "2025-09-20|推しが見つかる方程式 vol.4",
+ "2025-10-04|一応誕生月だからふち豆的スタメン集めてみた！",
+ "2025-11-02|推しが見つかる方程式Sing & Dance",
+ "2025-11-22|雪月火",
+ "2025-12-27|STEP UP STAGE 大忘年会 2025",
+ "2026-01-10|Luil生誕祭vol.2 -虜になってみるいる？-",
+ "2026-01-24|推しと暴れる反応式vol.2",
+ "2026-02-01|Colorful Harmony",
+ "2026-05-10|ナゴウタサーキット冥典",
+ "2026-05-16|STEP UP STAGE Nagoya",
+ "2026-06-06|推しクエスト なつのあしおと",
+ "2026-06-27|ウタオド vol.23",
+ "2026-07-25|誕生日だしボクの考えるつよ×2メンツを集めてみた ver3.14285714_f",
+ "2026-08-22|とびだす！4DLIVE Vol.6 in TOKYO",
+ "2026-10-03|だから僕は此処で歌う。"
+];
 
 (function(){
   var track = function(n,p){ try{ if(window.gtag) gtag('event', n, p||{}); }catch(e){} };
@@ -475,12 +581,30 @@ var UPCOMING_OPEN = false;   // true にすると、出演予定のプルダウ�
   fetch(url, {cache:'no-cache'})
     .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
     .then(function(t){ build(toEvents(parseCsv(t))); })
-    .catch(function(err){ try{console.warn('live load failed', err);}catch(e){} renderError(); });
+    .catch(function(err){
+      try{console.warn('live load failed (内蔵の控えを表示します)', err);}catch(e){}
+      try{ build(FALLBACK.map(function(s,n){ var i=s.indexOf('|'); return {n:n, d:normDate(s.slice(0,i)), title:s.slice(i+1), venue:'', songs:'', fly:'', link:''}; })); }
+      catch(e2){ renderError(); }
+    });
 
   // ---- 計測 ----
   document.getElementById('pullUp').addEventListener('toggle', function(){ if(this.open) track('live_upcoming_open'); });
   document.getElementById('pullHist').addEventListener('toggle', function(){ if(this.open) track('live_history_open'); });
 })();
+</script>
+<script>
+// ▼lit.linkから移したリンクのURL。空欄にすると、その行は非表示になります
+var MORE_LINKS = {
+  'lk-live':    'https://x.com/Oshi_Equation',   // 推しが見つかる方程式(X)
+  'lk-matari':  'https://x.com/rho_ebi',   // まったりろさん(X)
+  'lk-twicas':  'https://twitcasting.tv/row_row_rho/',   // ツイキャス
+  'lk-hoshiimo':'https://www.amazon.jp/hz/wishlist/ls/2EQHO7UXXO242',   // 干芋
+  'lk-ask':     'https://marshmallow-qa.com/row_row_rho'    // 質問(ましゅまろ)
+};
+Object.keys(MORE_LINKS).forEach(function(id){
+  var u = MORE_LINKS[id], a = document.getElementById(id);
+  if (a && /^https?:\/\//i.test(u)) { a.href = u; a.hidden = false; }
+});
 </script>
 </body>
 </html>
