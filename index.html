@@ -88,6 +88,44 @@ h2{font-size:24px;font-weight:900;color:var(--navy);margin:2px 0 8px}
 .discord .how{margin-top:14px;background:rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;font-size:13.5px}
 .discord .cta{background:var(--amber);color:var(--navy-d)}
 footer{padding:28px 0 40px;text-align:center;font-size:12px;color:var(--sub)}
+/* ライブ */
+#live{background:var(--bg)}
+.pull{background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:14px;overflow:hidden}
+.pull > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:16px 16px;font-weight:900;font-size:16px;color:var(--navy);min-height:56px}
+.pull > summary::-webkit-details-marker{display:none}
+.pull > summary .ttl{flex:1}
+.pull > summary .cnt{font-size:12px;font-weight:700;color:var(--sub);background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 10px;white-space:nowrap}
+.pull > summary .chev{flex:none;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;transition:transform .2s}
+.pull[open] > summary .chev{transform:rotate(180deg)}
+.pull.up > summary{background:var(--amber-bg)}
+.pull.up > summary .tag{font-size:11.5px;font-weight:900;color:var(--amber-ink);border:1.5px solid var(--amber);border-radius:99px;padding:0 9px;background:#fff;white-space:nowrap}
+.pull .body{padding:4px 14px 16px}
+.state{font-size:13.5px;color:var(--sub);padding:8px 2px}
+.state a{color:var(--blue);text-decoration:underline;font-weight:700}
+
+/* 出演予定カード(フライヤーとタイトルが一体) */
+.ev{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:12px;box-shadow:0 2px 10px rgba(15,42,70,.06)}
+.ev .fly{display:block;background:#E9EFF5}
+.ev .fly img{display:block;width:100%;height:auto}
+.ev .txt{padding:14px 16px 16px}
+.ev .date{display:inline-block;font-size:12.5px;font-weight:900;color:var(--amber-ink);background:var(--amber-bg);border:1.5px solid var(--amber);border-radius:99px;padding:0 12px}
+.ev h3{font-size:17px;font-weight:900;color:var(--navy);line-height:1.5;margin:8px 0 2px}
+.ev .meta{font-size:13.5px;color:var(--text)}
+.ev .meta b{color:var(--sub);font-weight:700;margin-right:6px}
+.ev .cta{display:inline-block;margin-top:12px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;padding:10px 20px;border-radius:99px}
+
+/* 履歴 */
+.yr{font-size:13px;font-weight:900;color:var(--blue);margin:18px 0 4px;padding-bottom:4px;border-bottom:2px solid var(--line)}
+.yr:first-child{margin-top:8px}
+.hist{list-style:none}
+.hist li{display:grid;grid-template-columns:78px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.hist li:last-child{border-bottom:0}
+.hist .d{font-size:13px;font-weight:900;color:var(--navy);white-space:nowrap}
+.hist .t{font-size:14.5px;font-weight:700;color:var(--text);line-height:1.55}
+.hist .t a{color:var(--blue);text-decoration:underline}
+.hist .s{font-size:12.5px;color:var(--sub);line-height:1.6;margin-top:2px}
+
+[hidden]{display:none !important}
 </style>
 </head>
 <body>
@@ -96,7 +134,8 @@ footer{padding:28px 0 40px;text-align:center;font-size:12px;color:var(--sub)}
   <div class="wrap">
     <a class="brand" href="#top">歌い手ρ</a>
     <nav>
-      <a href="#activity">歌い手活動</a>
+      <a href="#activity">活動</a>
+      <a href="#live">ライブ</a>
       <a href="#mix">MIX</a>
       <a href="#voice">ボイトレ</a>
       <a href="#discord">Discord</a>
@@ -143,7 +182,7 @@ footer{padding:28px 0 40px;text-align:center;font-size:12px;color:var(--sub)}
         <p>
           2018年からYouTubeに歌ってみた動画を投稿し始め、2022年からはライブにも出演。
           現在は、ボイストレーナー、歌ってみたMIX、歌ってみたMV制作など、歌い手活動に関わるサポートを幅広く行っています。<br><br>
-          これまでに出演したライブは50本以上。自身も歌い手として活動しながら、歌う人・表現する人の悩みに寄り添ってきました。<br><br>
+          これまでに出演したライブは60本以上。自身も歌い手として活動しながら、歌う人・表現する人の悩みに寄り添ってきました。<br><br>
           また、中学校の先生として9年間働いてきた経験を活かし、「わからない」「うまくいかない」と感じる部分を一緒に整理しながら、解決策を考えることを大切にしています。<br><br>
           自分の声に自信がない方、歌ってみたを始めたいけれど何から準備すればいいかわからない方も大丈夫です。<br>
           あなたの挑戦が、ちゃんと形になるように。<br>
@@ -151,10 +190,28 @@ footer{padding:28px 0 40px;text-align:center;font-size:12px;color:var(--sub)}
         </p>
         <div class="trainer-tags">
           <span>元中学校教師(9年)</span>
-          <span>ライブ出演50本以上</span>
+          <span>ライブ出演60本以上</span>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="live">
+  <div class="wrap">
+    <div class="sec-label">LIVE</div>
+    <h2>ライブ</h2>
+    <p class="lead">これからの出演予定と、これまでに出演したライブです。</p>
+
+    <details class="pull up" id="pullUp">
+      <summary><span class="tag">予定</span><span class="ttl">出演予定はこちら</span><span class="cnt" id="cntUp">読み込み中</span><span class="chev" aria-hidden="true">▼</span></summary>
+      <div class="body" id="bodyUp"><p class="state">読み込み中です…</p></div>
+    </details>
+
+    <details class="pull" id="pullHist">
+      <summary><span class="ttl">ライブ履歴はこちら</span><span class="cnt" id="cntHist">読み込み中</span><span class="chev" aria-hidden="true">▼</span></summary>
+      <div class="body" id="bodyHist"><p class="state">読み込み中です…</p></div>
+    </details>
   </div>
 </section>
 
@@ -246,6 +303,184 @@ document.querySelectorAll('a[data-track]').forEach(function(a){
     if (window.gtag) gtag('event', 'hub_click', {link_name: a.dataset.track});
   });
 });
+</script>
+<script>
+/* ===== 設定 =====
+   ライブの一覧は、Googleスプレッドシート「ライブ履歴管理(歌い手ρ)」の「ライブ」シートから読み込みます。
+   CSV_URL: 「ウェブに公開」(CSV形式)で出たURLを入れると、そちらを優先します。
+   空のままなら、シートを「リンクを知っている全員が閲覧可」にした状態で SHEET_ID から読み込みます。 */
+var SHEET_ID = '1eiZaXxZ5tjReIJGOMoWcFT_HDeXB0zMFhTVOfnIEm38';
+var CSV_URL  = '';
+var SHEET_GID = '0';
+var X_URL = 'https://x.com/row_row_rho';
+var UPCOMING_OPEN = false;   // true にすると、出演予定のプルダウンを最初から開いておきます
+
+(function(){
+  var track = function(n,p){ try{ if(window.gtag) gtag('event', n, p||{}); }catch(e){} };
+  var WD = ['日','月','火','水','木','金','土'];
+
+  // ---- 今日の日付(日本時間)。?today=2026-12-20 で動作確認用に上書きできます ----
+  function todayJst(){
+    var q = (location.search.match(/[?&]today=(\d{4}-\d{2}-\d{2})/)||[])[1];
+    if (q) return q;
+    var p = new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+    var o = {}; p.forEach(function(x){ o[x.type]=x.value; });
+    return o.year+'-'+o.month+'-'+o.day;
+  }
+
+  // ---- CSV(引用符・セル内改行・BOMに対応) ----
+  function parseCsv(text){
+    text = text.replace(/^﻿/, '');
+    var rows=[], row=[], cell='', q=false, i=0, c;
+    for (; i<text.length; i++){
+      c = text[i];
+      if (q){
+        if (c==='"'){ if (text[i+1]==='"'){ cell+='"'; i++; } else q=false; }
+        else cell+=c;
+      } else if (c==='"'){ q=true; }
+      else if (c===','){ row.push(cell); cell=''; }
+      else if (c==='\n' || c==='\r'){
+        if (c==='\r' && text[i+1]==='\n') i++;
+        row.push(cell); cell=''; rows.push(row); row=[];
+      } else cell+=c;
+    }
+    if (cell!=='' || row.length){ row.push(cell); rows.push(row); }
+    return rows;
+  }
+
+  function normDate(s){
+    var m = String(s||'').match(/(\d{4})\s*[-\/.年]\s*(\d{1,2})\s*[-\/.月]\s*(\d{1,2})/);
+    if (!m) return null;
+    var y=+m[1], mo=+m[2], d=+m[3];
+    if (mo<1||mo>12||d<1||d>31) return null;
+    return {key: y+'-'+('0'+mo).slice(-2)+'-'+('0'+d).slice(-2), y:y, m:mo, d:d,
+            wd: WD[new Date(Date.UTC(y,mo-1,d)).getUTCDay()]};
+  }
+  function safeUrl(u){
+    u = String(u||'').trim();
+    return /^https?:\/\//i.test(u) ? u : '';
+  }
+  // Googleドライブの共有リンク → 表示できる画像URL。それ以外のURL・相対パスはそのまま使います
+  function imgUrl(u){
+    u = String(u||'').trim();
+    if (!u) return '';
+    var m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/) || u.match(/drive\.google\.com\/(?:open|uc|thumbnail)\?[^#]*\bid=([\w-]+)/);
+    if (m) return 'https://drive.google.com/thumbnail?id='+m[1]+'&sz=w1000';
+    if (/^https?:\/\//i.test(u)) return u;
+    if (/^[\w\-\/.]+\.(png|jpe?g|webp|gif)$/i.test(u)) return u;
+    return '';
+  }
+
+  function toEvents(rows){
+    if (!rows.length) return [];
+    var head = rows[0].map(function(h){ return String(h).trim(); });
+    function col(name){ return head.indexOf(name); }
+    var ix = {date:col('日付'), title:col('ライブ名'), venue:col('会場'), songs:col('出演曲'),
+              fly:col('フライヤー画像のリンク'), link:col('詳細・チケットのリンク'), hide:col('非表示')};
+    if (ix.date<0 || ix.title<0) throw new Error('列名が見つかりません');
+    var out=[];
+    rows.slice(1).forEach(function(r, n){
+      var get = function(i){ return i>=0 && r[i]!=null ? String(r[i]).trim() : ''; };
+      if (/^(true|1|はい|○|✓)$/i.test(get(ix.hide))) return;
+      var title = get(ix.title), d = normDate(get(ix.date));
+      if (!title || !d) return;
+      out.push({n:n, d:d, title:title, venue:get(ix.venue), songs:get(ix.songs),
+                fly:imgUrl(get(ix.fly)), link:safeUrl(get(ix.link))});
+    });
+    return out;
+  }
+
+  // ---- 描画 ----
+  function el(tag, cls, text){
+    var e=document.createElement(tag);
+    if (cls) e.className=cls;
+    if (text!=null) e.textContent=text;
+    return e;
+  }
+  function renderUpcoming(list){
+    var body=document.getElementById('bodyUp'); body.textContent='';
+    document.getElementById('cntUp').textContent = list.length ? list.length+'件' : '未定';
+    if (!list.length){
+      var p=el('p','state','現在、決まっている出演予定はありません。決まり次第、こちらとXでお知らせします。');
+      body.appendChild(p); return;
+    }
+    list.forEach(function(e){
+      var card=el('article','ev');
+      if (e.fly){
+        var wrap = e.link ? el('a','fly') : el('div','fly');
+        if (e.link){ wrap.href=e.link; wrap.target='_blank'; wrap.rel='noopener'; }
+        var img=el('img'); img.src=e.fly; img.alt=e.title+' のフライヤー'; img.loading='lazy';
+        img.onerror=function(){ wrap.remove(); };
+        wrap.appendChild(img); card.appendChild(wrap);
+      }
+      var t=el('div','txt');
+      t.appendChild(el('span','date', e.d.y+'年'+e.d.m+'月'+e.d.d+'日('+e.d.wd+')'));
+      t.appendChild(el('h3',null,e.title));
+      if (e.venue){ var v=el('p','meta'); v.appendChild(el('b',null,'会場')); v.appendChild(document.createTextNode(e.venue)); t.appendChild(v); }
+      if (e.songs){ var s=el('p','meta'); s.appendChild(el('b',null,'出演曲')); s.appendChild(document.createTextNode(e.songs)); t.appendChild(s); }
+      if (e.link){
+        var a=el('a','cta','詳細・チケットを見る →'); a.href=e.link; a.target='_blank'; a.rel='noopener';
+        a.addEventListener('click', function(){ track('live_ticket_click',{live_title:e.title}); });
+        t.appendChild(a);
+      }
+      card.appendChild(t); body.appendChild(card);
+    });
+  }
+  function renderHistory(list){
+    var body=document.getElementById('bodyHist'); body.textContent='';
+    document.getElementById('cntHist').textContent = list.length ? '掲載'+list.length+'件' : '準備中';
+    if (!list.length){ body.appendChild(el('p','state','ライブ履歴は準備中です。')); return; }
+    var year=null, ul=null;
+    list.forEach(function(e){
+      if (e.d.y!==year){
+        year=e.d.y; body.appendChild(el('div','yr',year+'年'));
+        ul=el('ul','hist'); body.appendChild(ul);
+      }
+      var li=el('li');
+      li.appendChild(el('div','d', e.d.m+'/'+e.d.d+'('+e.d.wd+')'));
+      var r=el('div');
+      var t=el('div','t');
+      if (e.link){ var a=el('a',null,e.title); a.href=e.link; a.target='_blank'; a.rel='noopener'; t.appendChild(a); }
+      else t.textContent=e.title;
+      r.appendChild(t);
+      var sub=[e.venue, e.songs && ('出演曲: '+e.songs)].filter(Boolean).join(' / ');
+      if (sub) r.appendChild(el('div','s',sub));
+      li.appendChild(r); ul.appendChild(li);
+    });
+  }
+  function renderError(){
+    ['bodyUp','bodyHist'].forEach(function(id){
+      var b=document.getElementById(id); b.textContent='';
+      var p=el('p','state','ライブ情報を読み込めませんでした。時間をおいて、もう一度開いてください。最新の情報は ');
+      var a=el('a',null,'X(@row_row_rho)'); a.href=X_URL; a.target='_blank'; a.rel='noopener';
+      p.appendChild(a); p.appendChild(document.createTextNode(' でも発信しています。'));
+      b.appendChild(p);
+    });
+    document.getElementById('cntUp').textContent='-';
+    document.getElementById('cntHist').textContent='-';
+  }
+
+  function build(events){
+    var today=todayJst();
+    // 日付で自動的に振り分け: 今日以降 = 出演予定 / 昨日以前 = ライブ履歴
+    var up = events.filter(function(e){ return e.d.key>=today; })
+                   .sort(function(a,b){ return a.d.key<b.d.key?-1:a.d.key>b.d.key?1:a.n-b.n; });
+    var hi = events.filter(function(e){ return e.d.key<today; })
+                   .sort(function(a,b){ return a.d.key<b.d.key?1:a.d.key>b.d.key?-1:a.n-b.n; });
+    renderUpcoming(up); renderHistory(hi);
+    if (UPCOMING_OPEN && up.length) document.getElementById('pullUp').open = true;
+  }
+
+  var url = CSV_URL || ('https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:csv&gid='+SHEET_GID);
+  fetch(url, {cache:'no-cache'})
+    .then(function(r){ if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(function(t){ build(toEvents(parseCsv(t))); })
+    .catch(function(err){ try{console.warn('live load failed', err);}catch(e){} renderError(); });
+
+  // ---- 計測 ----
+  document.getElementById('pullUp').addEventListener('toggle', function(){ if(this.open) track('live_upcoming_open'); });
+  document.getElementById('pullHist').addEventListener('toggle', function(){ if(this.open) track('live_history_open'); });
+})();
 </script>
 </body>
 </html>
