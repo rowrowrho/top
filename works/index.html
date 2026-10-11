@@ -96,8 +96,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--amber);outline-offs
 var SHEET_ID  = '1eiZaXxZ5tjReIJGOMoWcFT_HDeXB0zMFhTVOfnIEm38';
 var SHEET_GID = '2';
 var CSV_URL   = '';   // 「ウェブに公開」(CSV)のURLを入れると、そちらを優先します
-var CAT_ORDER = ['歌ってみた','MIX','動画'];   // タブの並び順(これ以外のカテゴリ名は後ろに追加されます)
-var CAT_CLASS = {'歌ってみた':'', 'MIX':'mix', '動画':'mov'};
+var CAT_ORDER = ['歌ってみた','MIX','MIX & 動画','動画'];   // タブの並び順(これ以外のカテゴリ名は後ろに追加されます)
+var CAT_CLASS = {'歌ってみた':'', 'MIX':'mix', 'MIX & 動画':'mix', '動画':'mov'};
 
 (function(){
   var listEl = document.getElementById('list'), barEl = document.getElementById('bar'), sel = document.getElementById('yearSel'), cntEl = document.getElementById('cnt'), stateEl = document.getElementById('state');
