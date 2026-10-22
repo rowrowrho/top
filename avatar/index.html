@@ -120,8 +120,9 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
     ENABLE_BOUNCE: true,   // 声に合わせて少し弾む
     ENABLE_BLINK:  true,   // 自動でまばたき
     ENABLE_FADE:   true,   // 表情の切り替えをなめらかにする
-    SHOW_PANEL:    true,   // 操作パネルを最初から表示
-    DEFAULT_BG:    'navy', // transparent / navy / green / white
+    SHOW_PANEL:    false,   // 操作パネルを最初から表示
+    AUTO_MIC:      true,   // 開いたらすぐマイクを始める(OBS用はtrue。?mic=1でも可)
+    DEFAULT_BG:    'transparent', // transparent / navy / green / white
     DEFAULT_SENS:  6       // 1(開きにくい)〜10(開きやすい)
   };
   var METER_MAX = 0.15;    // メーターの右端に当たる音量
@@ -360,6 +361,7 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
   try { reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   function tick(now) {
+    if (micOn && ctx && ctx.state === 'suspended' && ctx.resume) { try { ctx.resume(); } catch (e) {} }
     var rms = demoOn ? demoLevel(now) : (micOn ? readLevel() : 0);
 
     if (calibrating) {
@@ -436,6 +438,7 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
   sensEl.value = String(sens); sensVal.textContent = String(sens);
 
   setPanel(panelVisible);
+  if (CONFIG.AUTO_MIC || getParam('mic') === '1') { startMic(); }
   scheduleBlink();
   window.requestAnimationFrame(tick);
 })();
