@@ -120,9 +120,10 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
     ENABLE_BOUNCE: true,   // 声に合わせて少し弾む
     ENABLE_BLINK:  true,   // 自動でまばたき
     ENABLE_FADE:   true,   // 表情の切り替えをなめらかにする
-    SHOW_PANEL:    false,   // 操作パネルを最初から表示
-    AUTO_MIC:      true,   // 開いたらすぐマイクを始める(OBS用はtrue。?mic=1でも可)
-    DEFAULT_BG:    'transparent', // transparent / navy / green / white
+    SHOW_PANEL:    true,   // 操作パネルを最初から表示
+    AUTO_MIC:      false,  // 開いたらすぐマイクを始める(?mic=1でも可)
+    OBS_INPUT:     '',     // OBSの音声ミキサーのマイク名(例 'マイク')。空ならブラウザのマイクを使う。?obs=マイク でも可
+    DEFAULT_BG:    'navy', // transparent / navy / green / white
     DEFAULT_SENS:  6       // 1(開きにくい)〜10(開きやすい)
   };
   var METER_MAX = 0.15;    // メーターの右端に当たる音量
@@ -253,8 +254,87 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
     store('bg', name);
   }
 
+  /* ================= OBS連携(OBSのマイク音量をWebSocketで受け取る) ================= */
+  var obsInput = getParam('obs') || CONFIG.OBS_INPUT || '';
+  var obsPort = getParam('obsport') || '4455';
+  var obsPw = getParam('obspw') || '';
+  var obsWs = null, obsLevel = 0, obsLastAt = 0, obsWanted = false, obsMatched = false, obsNames = [];
+  function sha256b64(str) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function (d) {
+      var a = new Uint8Array(d), t = '';
+      for (var i = 0; i < a.length; i++) { t += String.fromCharCode(a[i]); }
+      return btoa(t);
+    });
+  }
+  function obsSend(o) { try { obsWs.send(JSON.stringify(o)); } catch (e) {} }
+  function obsIdentify(hello) {
+    var msg = { op: 1, d: { rpcVersion: 1, eventSubscriptions: 65536 } };   // 65536 = InputVolumeMeters
+    var au = hello && hello.d && hello.d.authentication;
+    if (au) {
+      if (!obsPw) {
+        setMsg('OBSのWebSocketにパスワードが必要です。URLの最後に &obspw=パスワード を付けるか、OBS側で認証をオフにしてください。');
+        return;
+      }
+      sha256b64(obsPw + au.salt).then(function (secret) {
+        return sha256b64(secret + au.challenge);
+      }).then(function (auth) { msg.d.authentication = auth; obsSend(msg); })
+        .catch(function () { setMsg('パスワードの処理に失敗しました。'); });
+    } else {
+      obsSend(msg);
+    }
+  }
+  function obsConnect() {
+    if (!obsWanted) { return; }
+    var url = 'ws://127.0.0.1:' + obsPort;
+    setMsg('OBSにつなぎ中…(' + url + ')');
+    try { obsWs = new WebSocket(url); } catch (e) { setMsg('OBSにつなげませんでした。'); return; }
+    obsWs.onmessage = function (ev) {
+      var m = null;
+      try { m = JSON.parse(ev.data); } catch (e) { return; }
+      if (m.op === 0) { obsIdentify(m); }
+      else if (m.op === 2) {
+        micOn = true; micBtn.disabled = false;
+        micBtn.textContent = 'OBSのマイクをオフにする'; micBtn.className = 'btn primary on';
+        setMsg('OBSにつながりました。「' + obsInput + '」の音量を待っています…');
+        setTimeout(function () {
+          if (obsWanted && !obsMatched) {
+            setMsg('「' + obsInput + '」が見つかりません。OBSの音声ミキサーの名前を確認してください。(見えている入力: ' + (obsNames.join(', ') || 'なし') + ')');
+          }
+        }, 4000);
+      }
+      else if (m.op === 5 && m.d && m.d.eventType === 'InputVolumeMeters') {
+        var ins = (m.d.eventData && m.d.eventData.inputs) || [];
+        obsNames = [];
+        for (var i = 0; i < ins.length; i++) {
+          obsNames.push(ins[i].inputName);
+          if (ins[i].inputName === obsInput) {
+            var mx = 0, ch = ins[i].inputLevelsMul || [];
+            for (var c = 0; c < ch.length; c++) { if (ch[c][0] > mx) { mx = ch[c][0]; } }
+            obsLevel = mx; obsLastAt = performance.now();
+            if (!obsMatched) { obsMatched = true; setMsg('OBSのマイクがオンです。話すと口が動きます。動かないときは「口の開きやすさ」を上げてください。'); }
+          }
+        }
+      }
+    };
+    obsWs.onclose = function () {
+      obsWs = null;
+      if (obsWanted) { micOn = false; setMsg('OBSとの接続が切れました。つなぎ直します…'); setTimeout(obsConnect, 2000); }
+    };
+    obsWs.onerror = function () {};
+  }
+  function startObs() { obsWanted = true; obsMatched = false; obsConnect(); }
+  function stopObs() {
+    obsWanted = false; micOn = false; obsLevel = 0;
+    try { if (obsWs) { obsWs.close(); } } catch (e) {}
+    obsWs = null;
+    micBtn.disabled = false;
+    micBtn.textContent = 'OBSのマイクをオンにする'; micBtn.className = 'btn primary';
+    setMsg('OBSのマイクをオフにしました。');
+  }
+
   /* ================= マイク ================= */
   function startMic() {
+    if (obsInput) { startObs(); return; }
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       setMsg('このブラウザではマイクが使えません。SafariかChromeで開いてください。');
       return;
@@ -292,6 +372,7 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
     });
   }
   function stopMic() {
+    if (obsInput) { stopObs(); return; }
     micOn = false;
     try { if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); } } catch (e) {}
     try { if (ctx && ctx.close) { ctx.close(); } } catch (e) {}
@@ -301,6 +382,7 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
     setMsg('マイクをオフにしました。');
   }
   function readLevel() {
+    if (obsInput) { return (performance.now() - obsLastAt > 400) ? 0 : obsLevel; }
     if (!analyser) { return 0; }
     analyser.getByteTimeDomainData(buf);
     var sum = 0;
@@ -438,7 +520,7 @@ code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size
   sensEl.value = String(sens); sensVal.textContent = String(sens);
 
   setPanel(panelVisible);
-  if (CONFIG.AUTO_MIC || getParam('mic') === '1') { startMic(); }
+  if (CONFIG.AUTO_MIC || getParam('mic') === '1' || obsInput) { startMic(); }
   scheduleBlink();
   window.requestAnimationFrame(tick);
 })();
